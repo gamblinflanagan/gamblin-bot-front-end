@@ -15,6 +15,7 @@ export const boardClasses = {
   okButton: "border-board-ok bg-board-ok text-board-card hover:border-board-ok hover:bg-board-ok hover:text-board-card",
   cardGrid: "grid items-stretch gap-3 *:mb-0 *:min-w-0 lg:grid-cols-2 lg:gap-4 2xl:grid-cols-3",
   note: "mx-1 mt-1 mb-3 max-w-[90ch] text-[12.5px]/[1.5] text-board-muted",
+  noteBubble: "mx-0 mt-1 mb-3 w-full max-w-none rounded-[20px] border border-board-line bg-board-card p-4 text-[12.5px]/[1.5] text-board-muted shadow-board sm:p-5",
   status: "mt-2 flex items-center gap-2 rounded-[14px] border border-board-line bg-board-card px-3 py-2 text-[12.5px]/[1.5] text-board-muted",
   statusBad: "border-transparent bg-board-badbg text-board-bad",
   dot: "size-2 flex-none rounded-full bg-board-muted",

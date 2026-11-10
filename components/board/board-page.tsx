@@ -170,8 +170,8 @@ export function BoardPage({ data, status, error, lastSuccessAt }: BoardPageProps
 
       {tab === "bets" && (
         <section id="v-bets" className={boardClasses.section}>
-          {data.split && <p className={boardClasses.note}><b>Each bet is split in two:</b> half on FanDuel, half on BetMGM. Place both halves and tap <b>I placed it</b> on each. BetMGM’s line or odds can differ a little — the card shows BetMGM’s own.{anyFootballOrSoccer && <> <b>Football and soccer bets are FanDuel only.</b></>}</p>}
-          <p className={boardClasses.note}>Tap {data.split ? "the FanDuel or BetMGM" : "a FanDuel"} button to load the bet, check the <b>line and odds on the slip</b> match the card (the link can’t lock the line), place it, then tap <b>I placed it</b>. If the book capped your stake, tap <b>Bet was limited</b> and enter the amount it accepted. On a phone, open this page in Safari or Chrome (not inside a texting or social app) so <b>FanDuel app</b> opens the app.</p>
+          {data.split && <p className={boardClasses.noteBubble}><b>Each bet is split in two:</b> half on FanDuel, half on BetMGM. Place both halves and tap <b>I placed it</b> on each. BetMGM’s line or odds can differ a little — the card shows BetMGM’s own.{anyFootballOrSoccer && <> <b>Football and soccer bets are FanDuel only.</b></>}</p>}
+          <p className={boardClasses.noteBubble}>Tap {data.split ? "the FanDuel or BetMGM" : "a FanDuel"} button to load the bet, check the <b>line and odds on the slip</b> match the card (the link can’t lock the line), place it, then tap <b>I placed it</b>. If the book capped your stake, tap <b>Bet was limited</b> and enter the amount it accepted. On a phone, open this page in Safari or Chrome (not inside a texting or social app) so <b>FanDuel app</b> opens the app.</p>
           {data.alertsNote && <div className={cn("mb-3", boardClasses.notice)}>{data.alertsNote}</div>}
           {data.alerts && !alertHidden && (
             <Card className={boardClasses.card}>
@@ -195,7 +195,7 @@ export function BoardPage({ data, status, error, lastSuccessAt }: BoardPageProps
           {parlays.length > 0 && (
             <>
               <h2 className={boardClasses.sectionTitle}>Parlays · {parlays.length}</h2>
-              <p className={boardClasses.note}>Extra tickets <b>on top of</b> the singles above, not instead of them — place the singles first. Once you place a basketball parlay, any other basketball parlay re-using one of its legs drops off this list.{parlays.some((bet) => bet.league === "fifa") && <> Soccer parlays are exactly Matt’s tickets and can share a leg — place each one.</>}</p>
+              <p className={boardClasses.noteBubble}>Extra tickets <b>on top of</b> the singles above, not instead of them — place the singles first. Once you place a basketball parlay, any other basketball parlay re-using one of its legs drops off this list.{parlays.some((bet) => bet.league === "fifa") && <> Soccer parlays are exactly Matt’s tickets and can share a leg — place each one.</>}</p>
               <div className={boardClasses.cardGrid}>{parlays.map((bet) => <ParlayCard key={bet.key} bet={bet} data={data} scale={stakeScale(bet.league, partner, bankroll)} />)}</div>
             </>
           )}
