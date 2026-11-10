@@ -48,25 +48,25 @@ export function FreshnessBanner({ data, status, error, lastSuccessAt }: Freshnes
   const attempts = status && status.consecutiveFailures > 1 ? ` (${status.consecutiveFailures} attempts)` : "";
 
   return (
-    <div className="mt-[6px]">
+    <div className="mt-2">
       {error && (
-        <div className={cn(boardClasses.status, "mt-[6px] bg-board-badbg text-board-bad")}>
+        <div className={cn(boardClasses.status, boardClasses.statusBad)}>
           <span className={cn(boardClasses.dot, "bg-board-bad")} />
           <span>Can’t reach the backend ({error}). Showing data from {lastSuccess}. Retrying…</span>
         </div>
       )}
       {waiting ? (
-        <div className="px-[10px] py-[3px] text-[12.5px] text-board-muted">Waiting for the first collection from the backend…</div>
+        <div className="px-3 py-1 text-[12.5px] text-board-muted">Waiting for the first collection from the backend…</div>
       ) : (
-        <div className={cn("px-[10px] py-[3px] text-[12.5px] text-board-muted", stale && "font-[650] text-board-warn")} title={new Date(pulledAt).toLocaleString()}>
+        <div className={cn("px-3 py-1 text-[12.5px] text-board-muted", stale && "font-semibold text-board-warn")} title={new Date(pulledAt).toLocaleString()}>
           Card updated {relativeTime(pulledAt, reference)}
         </div>
       )}
       {status?.lastOutcome === "failed" && pulledAt && (
-        <div className="mt-[6px] rounded-[7px] bg-board-warnbg px-[9px] py-[7px] text-[12.5px] text-board-warn">Couldn’t refresh ({failureReason}) — showing the card from {new Date(pulledAt).toLocaleString()}.{attempts}</div>
+        <div className={cn("mt-2", boardClasses.notice)}>Couldn’t refresh ({failureReason}) — showing the card from {new Date(pulledAt).toLocaleString()}.{attempts}</div>
       )}
       {status?.snapshotOrigin === "fallback" && (
-        <div className="px-[10px] py-[3px] text-[12.5px] text-board-muted">Fallback picks from ESPN odds — not the source’s picks.</div>
+        <div className="px-3 py-1 text-[12.5px] text-board-muted">Fallback picks from ESPN odds — not the source’s picks.</div>
       )}
     </div>
   );
