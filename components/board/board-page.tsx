@@ -16,10 +16,10 @@ import { Stat } from "./stat";
 
 type Tab = "bets" | "placed" | "record";
 
-const tabClass = `inline-flex min-h-[40px] flex-1 cursor-pointer items-center justify-center gap-[6px] rounded-full px-3 text-[14px] font-semibold text-board-muted transition-[background-color,color,box-shadow] duration-200 hover:text-board-ink ${boardClasses.focusRing} focus-visible:ring-offset-board-chip`;
-const tabActive = "bg-board-card text-board-ink shadow-board";
+const tabClass = `inline-flex min-h-[40px] flex-1 cursor-pointer items-center justify-center gap-[6px] rounded-full px-3 text-[14px] font-semibold text-board-muted transition-[background-color,color,box-shadow] duration-200 hover:text-board-ink ${boardClasses.focusRing} focus-visible:ring-board-highlight-strong focus-visible:ring-offset-board-chip`;
+const tabActive = "bg-board-highlight text-board-on-highlight shadow-board hover:text-board-on-highlight";
 const badgeClass = "inline-block min-w-[20px] rounded-full bg-board-card px-[6px] text-center text-[12px]/[20px] font-semibold tabular-nums text-board-muted transition-colors duration-200";
-const badgeActive = "bg-board-accent text-board-on-accent";
+const badgeActive = "bg-board-highlight-strong text-board-on-highlight-strong";
 const thClass = "border-b border-board-line px-2 py-[9px] text-[11px] font-semibold tracking-[0.04em] text-board-muted uppercase";
 const tdClass = "border-b border-board-line px-2 py-[9px] group-last:border-b-0";
 
@@ -191,19 +191,19 @@ export function BoardPage({ data, status, error, lastSuccessAt }: BoardPageProps
           {todo.length === 0 && (waitingForCollection
             ? <div className={boardClasses.empty}><b className="mb-1 block text-[16px] font-semibold text-board-ink">Waiting for the first collection from the backend…</b>The board will update when data is available.</div>
             : <div className={boardClasses.empty}><b className="mb-1 block text-[16px] font-semibold text-board-ink">Nothing to place right now</b>New bets show up here about 10–60 minutes before tip. This page refreshes itself.</div>)}
-          {singles.map((bet) => <BetCard key={bet.key} bet={bet} data={data} scale={stakeScale(bet.league, partner, bankroll)} />)}
+          {singles.length > 0 && <div className={boardClasses.cardGrid}>{singles.map((bet) => <BetCard key={bet.key} bet={bet} data={data} scale={stakeScale(bet.league, partner, bankroll)} />)}</div>}
           {parlays.length > 0 && (
             <>
               <h2 className={boardClasses.sectionTitle}>Parlays · {parlays.length}</h2>
               <p className={boardClasses.note}>Extra tickets <b>on top of</b> the singles above, not instead of them — place the singles first. Once you place a basketball parlay, any other basketball parlay re-using one of its legs drops off this list.{parlays.some((bet) => bet.league === "fifa") && <> Soccer parlays are exactly Matt’s tickets and can share a leg — place each one.</>}</p>
-              {parlays.map((bet) => <ParlayCard key={bet.key} bet={bet} data={data} scale={stakeScale(bet.league, partner, bankroll)} />)}
+              <div className={boardClasses.cardGrid}>{parlays.map((bet) => <ParlayCard key={bet.key} bet={bet} data={data} scale={stakeScale(bet.league, partner, bankroll)} />)}</div>
             </>
           )}
         </section>
       )}
 
       {tab === "placed" && (
-        <section id="v-placed" className={boardClasses.section}>
+        <section id="v-placed" className={cn(boardClasses.section, "mx-auto lg:max-w-[880px]")}>
           {placements.length ? (
             <>
               <Card className={cn(boardClasses.card, "py-1 sm:py-2")}>{placements.map(([key, placement]) => <PlacedItem key={key} placement={placement} />)}</Card>
