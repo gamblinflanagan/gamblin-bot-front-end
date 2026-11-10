@@ -9,3 +9,8 @@ playwright/.cache/
 .env*
 !.env.example
 .DS_Store
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+docs/
+plans/

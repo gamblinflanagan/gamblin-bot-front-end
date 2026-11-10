@@ -27,6 +27,14 @@ test("development home preview is unavailable in production", async ({ request }
   expect(response.status()).toBe(404);
 });
 
+test("production data proxies reject anonymous requests", async ({ request }) => {
+  for (const path of ["/api/data", "/api/status", "/api/record"]) {
+    const response = await request.get(path);
+    expect(response.status()).toBe(401);
+    expect(await response.json()).toEqual({ error: "Authentication required." });
+  }
+});
+
 test("protected home rejects missing and fabricated sessions", async ({ context, page, request }) => {
   const anonymous = await request.get("/", { maxRedirects: 0 });
   expect(anonymous.status()).toBe(307);

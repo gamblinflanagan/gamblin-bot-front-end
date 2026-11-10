@@ -170,7 +170,7 @@ export function BoardPage({ data, status, error, lastSuccessAt }: BoardPageProps
             <Card className={cn(boardClasses.card, "px-[13px] py-[11px]")}>
               <b>Get a ping when new bets arrive</b>
               <div className={cn(boardClasses.hint, "mt-2")}>Install the free <b>ntfy</b> app (App Store / Google Play), tap <b>+</b>, and subscribe to this topic:</div>
-              <div className="my-2 font-mono text-[15px] font-semibold break-anywhere select-all">{data.alerts}</div>
+              <div className="my-2 font-mono text-[15px] font-semibold [overflow-wrap:anywhere] select-all">{data.alerts}</div>
               <div className={boardClasses.hint}>New bets arrive bundled in one ping, a few minutes apart at most; tap it to open this board. <a className="text-board-fd" href="#hide-alert" onClick={(event) => { event.preventDefault(); hideAlert(); }}>Hide this</a></div>
             </Card>
           )}

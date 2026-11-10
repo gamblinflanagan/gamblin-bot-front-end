@@ -16,22 +16,23 @@ This is a single pnpm package, not a workspace or monorepo. Work in this fronten
 ## Boundaries and security
 
 - Keep layouts and pages as Server Components unless interactivity requires `"use client"`. The QueryClient belongs in React state in `app/providers.tsx`, never a module-global shared across users.
-- `db/`, `lib/auth.ts`, `lib/env.ts`, and `lib/session.ts` are server-only. Database/auth construction must remain lazy and must not contact Neon during import or build.
+- `db/`, `lib/auth.ts`, `lib/env.ts`, `lib/session.ts`, and `lib/backend.ts` are server-only. Database/auth construction must remain lazy and must not contact Neon during import or build.
 - Never expose `DATABASE_URL`, `BETTER_AUTH_SECRET`, `BACKEND_API_KEY`, or other secrets through client imports or `NEXT_PUBLIC_*`. Do not log responses or credentials.
-- Middleware is only an optimistic cookie-presence routing check. `app/(app)/layout.tsx` must retain authoritative server-side session validation. Every future protected Route Handler and Server Action must independently call the shared session helper; middleware and parent layouts are not sufficient.
+- Middleware is only an optimistic cookie-presence routing check. `app/(app)/layout.tsx` must retain authoritative server-side session validation. Every protected Route Handler and Server Action must independently call the shared session helper; middleware and parent layouts are not sufficient.
+- `/api/data`, `/api/status`, and `/api/record` proxy the current local Python API. They allow anonymous access only in `NODE_ENV === "development"` for the preview; production calls must retain their own authoritative session checks.
 - Missing auth configuration must fail closed and keep `/login` usable. Never add a fake login, fixed session, production mock user, or public sign-up bypass. Unit/browser mocks stay under `tests/` and are never imported by production code.
 - `/dev/home` is a local UI preview of the shared `components/home-page.tsx`. Keep its `NODE_ENV === "development"` gate and production 404 behavior. Never use it to bypass session checks on `/` or any other real application route.
 - Authentication/session tables only. Application data and account settings do not belong in Neon in this phase.
 
 ## UI conventions
 
-Use the generated shadcn/ui components and Tailwind tokens in `app/globals.css`. Generate additional primitives with the shadcn CLI and keep their source under `components/ui/`. Do not add another UI framework, an ad-hoc stylesheet system, or an inline-style design system. Final dashboard/card designs and backend records belong to a later phase.
+Use the generated shadcn/ui components and Tailwind tokens in `app/globals.css`. Generate additional primitives with the shadcn CLI and keep their source under `components/ui/`. Do not add another UI framework, an ad-hoc stylesheet system, or an inline-style design system. The main board lives in `components/board/` with `components/home-page.tsx` as its shared entry point. Preserve the dummy board's responsive/system-dark appearance through the `board-*` Tailwind tokens; do not copy its global stylesheet or alter login tokens.
 
 ## Contracts and future phases
 
-The browser will eventually call only Next.js. A future versioned Python contract will drive generated TypeScript and Zod types under `contract/`; do not hand-write a competing backend contract or placeholder proxy routes. Backend contract changes start in the backend repository and are consumed here by pinned release. No data proxy, user-management script, deployment adapter, Sentry integration, DynamoDB/SSM code, or cloud job is part of this scaffold.
+The browser calls only Next.js. The current local integration uses the backend's unversioned `/data`, `/status`, and `/record` payload shapes in `lib/board/`; it is read-only and contains private local-board fields, so do not expose the Python server directly. When the backend publishes its planned versioned OpenAPI release, replace these local shapes with generated TypeScript/Zod types under `contract/` and migrate the proxy to the versioned endpoints. Backend contract changes start in the backend repository and are consumed here by pinned release. No user-management script, deployment adapter, Sentry integration, DynamoDB/SSM code, or cloud job is part of this phase.
 
-See `docs/plan.md` for the master plan and `plans/02-repo-scaffold.md` for this phase.
+See `docs/plan.md` for the master plan, `plans/02-repo-scaffold.md` for the scaffold, and `plans/03-main-board.md` for this board integration.
 
 ## Required checks
 
