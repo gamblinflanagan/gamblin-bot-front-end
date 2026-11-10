@@ -12,7 +12,7 @@ export default async function LoginPage() {
 
   return (
     <main className="flex min-h-screen items-center justify-center p-6">
-      <Card className="w-full max-w-sm">
+      <Card className="w-full max-w-sm rounded-[20px] shadow-board">
         <CardHeader>
           <CardTitle>Sign in</CardTitle>
           <CardDescription>Use your provided email and password.</CardDescription>
