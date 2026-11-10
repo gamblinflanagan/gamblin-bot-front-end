@@ -1,0 +1,18 @@
+export const boardClasses = {
+  main: "mx-auto min-h-screen max-w-[640px] bg-board-bg px-4 pb-12 font-board-sans text-[15px]/[1.45] text-board-ink [-webkit-text-size-adjust:100%]",
+  header: "sticky top-0 z-5 bg-board-bg pt-3",
+  heading: "m-0 mb-[2px] text-[19px]/[1.2] font-[750] tracking-[-0.01em]",
+  sub: "text-[12.5px] text-board-muted",
+  card: "mb-3 w-full gap-0 rounded-[12px] border-board-line bg-board-card p-[14px] text-board-ink shadow-board",
+  button: "h-auto min-h-[42px] flex-1 rounded-[9px] border-board-line bg-board-card px-[14px] py-0 text-[14px]/[1.45] font-bold text-board-ink shadow-none hover:bg-board-card hover:text-board-ink",
+  smallButton: "h-auto min-h-[32px] flex-none rounded-[9px] border-board-line bg-board-card px-[10px] py-0 text-[12.5px]/[1.45] font-bold text-board-ink shadow-none hover:bg-board-card hover:text-board-ink",
+  note: "mx-[2px] mt-[2px] mb-[10px] text-[12.5px]/[1.45] text-board-muted",
+  status: "mt-[10px] flex items-center gap-[7px] rounded-[8px] bg-board-soft px-[10px] py-[7px] text-[12.5px]/[1.45] text-board-muted",
+  dot: "size-2 flex-none rounded-full bg-board-muted",
+  section: "pt-3",
+  empty: "px-3 py-9 text-center text-board-muted",
+  chip: "ml-[6px] inline-block rounded-[9px] bg-board-chip px-[7px] py-[1px] text-[11px]/[1.45] font-bold tracking-[0.04em] text-board-ink",
+  hint: "mt-2 text-[12.5px] text-board-muted",
+  positive: "text-board-ok",
+  negative: "text-board-bad",
+};

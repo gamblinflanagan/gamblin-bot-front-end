@@ -1,17 +1,19 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+"use client";
+
+import { BoardPage } from "@/components/board/board-page";
+import { boardClasses } from "@/components/board/board-styles";
+import { useBoard } from "@/lib/board/use-board";
 
 export function HomePage() {
-  return (
-    <main className="flex min-h-screen items-center justify-center p-6">
-      <Card className="w-full max-w-lg">
-        <CardHeader>
-          <CardTitle>Protected application shell</CardTitle>
-          <CardDescription>Next.js frontend foundation</CardDescription>
-        </CardHeader>
-        <CardContent className="text-sm text-muted-foreground">
-          The dashboard and backend data connection will be implemented in later phases.
-        </CardContent>
-      </Card>
-    </main>
-  );
+  const { data, status, error, loading, lastSuccessAt } = useBoard();
+
+  if (loading && !data) {
+    return <main className={boardClasses.main}><div className={boardClasses.empty}><b className="mb-1 block text-[16px] text-board-ink">Loading picks board…</b>Fetching the latest board data.</div></main>;
+  }
+
+  if (!data) {
+    return <main className={boardClasses.main}><div className={`${boardClasses.status} bg-board-badbg text-board-bad`}><span className={`${boardClasses.dot} bg-board-bad`} /><span>Can’t reach the board ({error || "No data received"}). Retrying…</span></div></main>;
+  }
+
+  return <BoardPage data={data} status={status} error={error} lastSuccessAt={lastSuccessAt} />;
 }

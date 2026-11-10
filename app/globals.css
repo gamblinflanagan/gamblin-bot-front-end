@@ -83,3 +83,60 @@
     @apply bg-background text-foreground;
   }
 }
+
+:root {
+  --board-bg: #f3f1ea;
+  --board-card: #ffffff;
+  --board-ink: #16201a;
+  --board-muted: #667068;
+  --board-line: #e3dfd4;
+  --board-soft: #f1eee6;
+  --board-fd: #0b6fe0;
+  --board-ok: #1b7442;
+  --board-okbg: #e2f1e7;
+  --board-bad: #b42318;
+  --board-badbg: #fbe8e6;
+  --board-warn: #8a5a00;
+  --board-warnbg: #fbf0d5;
+  --board-chip: #ebe7dc;
+  --board-shadow: 0 1px 2px rgba(20, 32, 26, 0.06);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --board-bg: #0e110f;
+    --board-card: #171b18;
+    --board-ink: #e7ece7;
+    --board-muted: #97a198;
+    --board-line: #28302a;
+    --board-soft: #1c211d;
+    --board-fd: #3b8fff;
+    --board-ok: #5cc489;
+    --board-okbg: #13281b;
+    --board-bad: #ff8a7e;
+    --board-badbg: #311714;
+    --board-warn: #e7b44f;
+    --board-warnbg: #332a16;
+    --board-chip: #222923;
+    --board-shadow: none;
+  }
+}
+
+@theme inline {
+  --color-board-bg: var(--board-bg);
+  --color-board-card: var(--board-card);
+  --color-board-ink: var(--board-ink);
+  --color-board-muted: var(--board-muted);
+  --color-board-line: var(--board-line);
+  --color-board-soft: var(--board-soft);
+  --color-board-fd: var(--board-fd);
+  --color-board-ok: var(--board-ok);
+  --color-board-okbg: var(--board-okbg);
+  --color-board-bad: var(--board-bad);
+  --color-board-badbg: var(--board-badbg);
+  --color-board-warn: var(--board-warn);
+  --color-board-warnbg: var(--board-warnbg);
+  --color-board-chip: var(--board-chip);
+  --shadow-board: var(--board-shadow);
+  --font-board-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
