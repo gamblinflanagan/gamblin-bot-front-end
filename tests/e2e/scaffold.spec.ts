@@ -22,6 +22,11 @@ test("standalone login is styled and safely unconfigured", async ({ page, reques
   expect(await auth.json()).toEqual({ error: "Authentication is not configured." });
 });
 
+test("development home preview is unavailable in production", async ({ request }) => {
+  const response = await request.get("/dev/home");
+  expect(response.status()).toBe(404);
+});
+
 test("protected home rejects missing and fabricated sessions", async ({ context, page, request }) => {
   const anonymous = await request.get("/", { maxRedirects: 0 });
   expect(anonymous.status()).toBe(307);

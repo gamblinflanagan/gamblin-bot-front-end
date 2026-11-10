@@ -20,6 +20,7 @@ This is a single pnpm package, not a workspace or monorepo. Work in this fronten
 - Never expose `DATABASE_URL`, `BETTER_AUTH_SECRET`, `BACKEND_API_KEY`, or other secrets through client imports or `NEXT_PUBLIC_*`. Do not log responses or credentials.
 - Middleware is only an optimistic cookie-presence routing check. `app/(app)/layout.tsx` must retain authoritative server-side session validation. Every future protected Route Handler and Server Action must independently call the shared session helper; middleware and parent layouts are not sufficient.
 - Missing auth configuration must fail closed and keep `/login` usable. Never add a fake login, fixed session, production mock user, or public sign-up bypass. Unit/browser mocks stay under `tests/` and are never imported by production code.
+- `/dev/home` is a local UI preview of the shared `components/home-page.tsx`. Keep its `NODE_ENV === "development"` gate and production 404 behavior. Never use it to bypass session checks on `/` or any other real application route.
 - Authentication/session tables only. Application data and account settings do not belong in Neon in this phase.
 
 ## UI conventions

@@ -16,6 +16,8 @@ pnpm dev
 
 Open `http://localhost:3000/login`. No database or auth credentials are needed for this starter. With configuration absent, the page displays **Authentication not configured**, sign-in is disabled, and `/` remains protected.
 
+For main-page UI development without an account, open `http://localhost:3000/dev/home`. This renders the same `components/home-page.tsx` used by the post-login `/` route. The preview returns 404 outside Next.js development mode and does not bypass authentication on `/`.
+
 ## Optional auth configuration
 
 Copy `.env.example` to `.env.local` only when you have a development Neon database and a random secret of at least 32 characters:
