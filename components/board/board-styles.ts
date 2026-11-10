@@ -2,8 +2,8 @@ const focusRing = "outline-none focus-visible:ring-[3px] focus-visible:ring-boar
 const buttonBase = `h-auto flex-1 rounded-[12px] border border-board-line bg-board-card py-0 font-semibold text-board-ink shadow-none transition-[background-color,border-color,color,transform,box-shadow] duration-150 hover:border-board-hover hover:bg-board-hover hover:text-board-ink active:scale-[0.98] disabled:opacity-50 ${focusRing}`;
 
 export const boardClasses = {
-  main: "mx-auto min-h-screen max-w-[680px] bg-board-bg px-4 pb-16 font-board-sans text-[15px]/[1.5] text-board-ink antialiased [-webkit-text-size-adjust:100%] sm:px-6",
-  header: "sticky top-0 z-5 -mx-4 bg-board-bg/90 px-4 pt-4 pb-1 backdrop-blur-md sm:-mx-6 sm:px-6",
+  main: "mx-auto min-h-screen max-w-[680px] bg-board-bg px-4 pb-16 lg:max-w-[1080px] lg:px-8 2xl:max-w-[1480px] font-board-sans text-[15px]/[1.5] text-board-ink antialiased [-webkit-text-size-adjust:100%] sm:px-6",
+  header: "sticky top-0 z-5 -mx-4 bg-board-bg/90 px-4 pt-4 pb-1 backdrop-blur-md sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8",
   panel: "rounded-[20px] border border-board-line bg-board-card p-4 shadow-board sm:p-5",
   heading: "m-0 mb-[2px] text-[20px]/[1.2] font-bold tracking-[-0.02em]",
   sub: "text-[12.5px]/[1.5] text-board-muted",
@@ -13,7 +13,8 @@ export const boardClasses = {
   fdButton: "border-board-fd bg-board-fd text-board-on-fd hover:border-board-fd-hover hover:bg-board-fd-hover hover:text-board-on-fd",
   mgmButton: "border-board-mgm bg-board-mgm text-board-on-mgm hover:border-board-mgm-hover hover:bg-board-mgm-hover hover:text-board-on-mgm",
   okButton: "border-board-ok bg-board-ok text-board-card hover:border-board-ok hover:bg-board-ok hover:text-board-card",
-  note: "mx-1 mt-1 mb-3 text-[12.5px]/[1.5] text-board-muted",
+  cardGrid: "grid items-stretch gap-3 *:mb-0 *:min-w-0 lg:grid-cols-2 lg:gap-4 2xl:grid-cols-3",
+  note: "mx-1 mt-1 mb-3 max-w-[90ch] text-[12.5px]/[1.5] text-board-muted",
   status: "mt-2 flex items-center gap-2 rounded-[14px] border border-board-line bg-board-card px-3 py-2 text-[12.5px]/[1.5] text-board-muted",
   statusBad: "border-transparent bg-board-badbg text-board-bad",
   dot: "size-2 flex-none rounded-full bg-board-muted",

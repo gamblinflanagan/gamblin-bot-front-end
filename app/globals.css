@@ -118,6 +118,10 @@
   --board-hover: #eceef3;
   --board-accent: #16181d;
   --board-on-accent: #ffffff;
+  --board-highlight: #e8e7fd;
+  --board-on-highlight: #2a2563;
+  --board-highlight-strong: #b9b6f3;
+  --board-on-highlight-strong: #1d1a4a;
   --board-fd: #0b6fe0;
   --board-fd-hover: #0960c4;
   --board-on-fd: #ffffff;
@@ -147,6 +151,10 @@
     --board-hover: #242832;
     --board-accent: #eceef2;
     --board-on-accent: #121418;
+    --board-highlight: #2e2c52;
+    --board-on-highlight: #dedcff;
+    --board-highlight-strong: #a19ef2;
+    --board-on-highlight-strong: #16142f;
     --board-fd: #2f7ff0;
     --board-fd-hover: #4a91f5;
     --board-on-fd: #ffffff;
@@ -176,6 +184,10 @@
   --color-board-hover: var(--board-hover);
   --color-board-accent: var(--board-accent);
   --color-board-on-accent: var(--board-on-accent);
+  --color-board-highlight: var(--board-highlight);
+  --color-board-on-highlight: var(--board-on-highlight);
+  --color-board-highlight-strong: var(--board-highlight-strong);
+  --color-board-on-highlight-strong: var(--board-on-highlight-strong);
   --color-board-fd: var(--board-fd);
   --color-board-fd-hover: var(--board-fd-hover);
   --color-board-on-fd: var(--board-on-fd);

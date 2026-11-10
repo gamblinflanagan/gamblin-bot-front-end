@@ -39,7 +39,7 @@ function SportsbookLinks({ bet, placeable }: { bet: Bet; placeable: boolean }) {
   const mgm = bet.book === "betmgm";
   const book = mgm ? "BetMGM" : "FanDuel";
   return (
-    <div className="mt-3 flex flex-wrap gap-2">
+    <div className="mt-auto flex flex-wrap gap-2 pt-3">
       {placeable && bet.app ? (
         <Button asChild className={cn(boardClasses.button, mgm ? boardClasses.mgmButton : boardClasses.fdButton)}>
           <a href={bet.app} target="_blank" rel="noopener noreferrer">{book} app</a>
