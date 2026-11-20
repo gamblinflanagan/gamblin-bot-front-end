@@ -2,11 +2,18 @@ import "server-only";
 
 import { z } from "zod";
 
+const postgresUrlSchema = z.url().refine((value) => {
+  const protocol = new URL(value).protocol;
+  return protocol === "postgres:" || protocol === "postgresql:";
+});
+
+const databaseEnvironmentSchema = z.object({
+  databaseUrl: postgresUrlSchema,
+  databaseUrlUnpooled: postgresUrlSchema.optional(),
+});
+
 const authEnvironmentSchema = z.object({
-  databaseUrl: z.url().refine((value) => {
-    const protocol = new URL(value).protocol;
-    return protocol === "postgres:" || protocol === "postgresql:";
-  }),
+  databaseUrl: postgresUrlSchema,
   secret: z.string().min(32),
   baseUrl: z.url(),
   trustedOrigins: z.array(z.url()).min(1),
@@ -27,6 +34,24 @@ function validHttpOrigin(value: string, production: boolean): boolean {
 
   const localHost = url.hostname === "localhost" || url.hostname === "127.0.0.1" || url.hostname === "[::1]";
   return !production && url.protocol === "http:" && localHost;
+}
+
+export function getDatabaseEnvironment(env: Record<string, string | undefined> = process.env): { databaseUrl: string } | null {
+  const values = {
+    databaseUrl: env.DATABASE_URL?.trim() || "",
+    databaseUrlUnpooled: env.DATABASE_URL_UNPOOLED?.trim() || undefined,
+  };
+
+  if (!values.databaseUrl && !values.databaseUrlUnpooled) return null;
+
+  const parsed = databaseEnvironmentSchema.safeParse(values);
+  if (!parsed.success) return null;
+
+  return {
+    databaseUrl: env.NODE_ENV === "production"
+      ? parsed.data.databaseUrl
+      : parsed.data.databaseUrlUnpooled ?? parsed.data.databaseUrl,
+  };
 }
 
 export function getAuthEnvironment(env: Record<string, string | undefined> = process.env): AuthEnvironment | null {

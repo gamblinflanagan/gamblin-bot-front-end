@@ -45,9 +45,22 @@ The current Python payload includes private local-board settings and ledger data
 
 `BACKEND_API_URL` is used by the server-only proxy and defaults to `http://127.0.0.1:8000`. Set it in `.env.local` only if the backend uses another address. `BACKEND_API_KEY` is optional for the current local API and can provide a bearer token to a future secured backend. Neither value is sent to the browser as configuration.
 
-For optional real authentication development, copy `.env.example` to `.env.local` only when you have a development Neon database and a random secret of at least 32 characters:
+For local Postgres development, select the Neon `dev` branch and pull only its Postgres settings:
 
-- `DATABASE_URL`: pooled Neon PostgreSQL connection string.
+```sh
+neon checkout dev
+neon env pull --service postgres --branch dev
+```
+
+This writes two server-only connection strings to `.env.local`:
+
+- `DATABASE_URL_UNPOOLED`: direct connection used by local development and Drizzle Kit migrations.
+- `DATABASE_URL`: pooled connection used in production and reserved for the deployed Lambda/serverless runtime.
+
+The database environment is validated with Zod when the lazy client is first used; importing modules and running a build do not contact Neon. Only use the `dev` branch locally. Do not enable Neon Auth, the Data API, Functions, Object Storage, AI Gateway, or Realtime for this connection-only setup.
+
+For optional real authentication development, also provide a random secret of at least 32 characters and the existing auth settings:
+
 - `BETTER_AUTH_SECRET`: server-only auth secret.
 - `BETTER_AUTH_URL`: application base URL.
 - `BETTER_AUTH_TRUSTED_ORIGINS`: comma-separated exact origins.
