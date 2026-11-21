@@ -1,6 +1,6 @@
 # Picks board frontend
 
-Next.js 15 frontend for the local Python picks-board API, with a protected production home route and a development-only working preview. The main board is read-only; authentication/user provisioning and deployment remain separate phases.
+Next.js 15 frontend for the local Python picks-board API, with self-hosted Better Auth backed by Neon Postgres, a protected production home route, and a development-only working preview. The main board is read-only; production deployment remains a separate phase.
 
 ## Install
 
@@ -57,17 +57,35 @@ This writes two server-only connection strings to `.env.local`:
 - `DATABASE_URL_UNPOOLED`: direct connection used by local development and Drizzle Kit migrations.
 - `DATABASE_URL`: pooled connection used in production and reserved for the deployed Lambda/serverless runtime.
 
-The database environment is validated with Zod when the lazy client is first used; importing modules and running a build do not contact Neon. Only use the `dev` branch locally. Do not enable Neon Auth, the Data API, Functions, Object Storage, AI Gateway, or Realtime for this connection-only setup.
+The database environment is validated with Zod when the lazy client is first used; importing modules and running a build do not contact Neon. Only use the `dev` branch locally. Neon provides Postgres only for this app; do not enable Neon Auth, the Data API, Functions, Object Storage, AI Gateway, or Realtime.
 
-For optional real authentication development, also provide a random secret of at least 32 characters and the existing auth settings:
+The app uses `@neondatabase/serverless` with Drizzle's `neon-serverless` WebSocket adapter and a bounded `Pool`, supporting Better Auth's interactive transactions. Local development selects the direct URL; production selects the pooled URL for AWS Lambda. Drizzle migrations always use the direct URL.
 
-- `BETTER_AUTH_SECRET`: server-only auth secret.
+Self-hosted Better Auth uses email/password only, disabled public sign-up, database-backed rate limiting, httpOnly/SameSite=Lax cookies, Secure cookies in production, and a five-minute signed session cookie cache. Its `user`, `session`, `account`, `verification`, and `rateLimit` tables are applied to the Neon `dev` branch. The auth environment requires:
+
+- `BETTER_AUTH_SECRET`: server-only random secret of at least 32 characters.
 - `BETTER_AUTH_URL`: application base URL.
 - `BETTER_AUTH_TRUSTED_ORIGINS`: comma-separated exact origins.
 
-Localhost HTTP is accepted only outside production. Production configuration requires HTTPS and secure cookies. No migrations or users are created automatically. Public sign-up remains disabled. Never commit `.env.local`.
+Localhost HTTP is accepted only outside production. Production configuration requires HTTPS and secure cookies. No users are created automatically. Public sign-up remains disabled. Never commit `.env.local`.
 
 `SENTRY_DSN` is reserved for the observability phase. There is no `ORIGIN_SECRET`.
+
+## User administration
+
+The admin script uses Better Auth's server-side internals rather than the disabled public sign-up endpoint. Passwords are generated securely and shown once; never pass a password as an argument.
+
+```sh
+pnpm users create --email user@example.com --name "Example User"
+pnpm users reset-password --email user@example.com
+pnpm users disable --email user@example.com
+```
+
+Password reset revokes existing sessions. Disable clears the credential hash and revokes sessions while retaining the user; reset-password restores access. Signed cookie-cache entries expire within five minutes.
+
+After schema changes, generate SQL with `pnpm db:generate` and inspect it. Apply migrations only after confirming `NEON_BRANCH=dev` in `.env.local`, then run `pnpm exec drizzle-kit migrate`. Never run this against production without separate explicit approval.
+
+Run the real auth integration check against the dev branch with `pnpm test:auth:dev`. It refuses other branches, creates a unique throwaway `.invalid` user through the admin script, checks sign-up rejection/sign-in/cookies/session storage/generic errors, and deletes the user and sessions afterwards. Secrets and passwords are never printed by the test runner.
 
 ## Main board
 

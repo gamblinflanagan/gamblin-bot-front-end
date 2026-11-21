@@ -6,7 +6,6 @@ import { getAuth } from "@/lib/auth";
 import { getAuthEnvironment } from "@/lib/env";
 
 vi.mock("better-auth", () => ({ betterAuth: vi.fn(() => ({ handler: vi.fn() })) }));
-vi.mock("better-auth/next-js", () => ({ nextCookies: vi.fn(() => "next-cookies") }));
 vi.mock("@better-auth/drizzle-adapter", () => ({ drizzleAdapter: vi.fn(() => vi.fn()) }));
 vi.mock("@/db", () => ({ getDatabase: vi.fn() }));
 vi.mock("@/lib/env", () => ({ getAuthEnvironment: vi.fn() }));
@@ -30,14 +29,19 @@ describe("auth initialization", () => {
     vi.mocked(getDatabase).mockReturnValue({} as unknown as NonNullable<ReturnType<typeof getDatabase>>);
 
     expect(getAuth()).not.toBeNull();
-    expect(drizzleAdapter).toHaveBeenCalledWith({}, expect.objectContaining({ provider: "pg" }));
+    expect(drizzleAdapter).toHaveBeenCalledWith({}, expect.objectContaining({ provider: "pg", transaction: true }));
     expect(betterAuth).toHaveBeenCalledWith(
       expect.objectContaining({
         emailAndPassword: { enabled: true, disableSignUp: true },
         session: { cookieCache: { enabled: true, maxAge: 300 } },
+        rateLimit: { enabled: true, storage: "database", modelName: "rateLimit" },
         trustedOrigins: ["http://localhost:3000"],
-        plugins: ["next-cookies"],
+        advanced: expect.objectContaining({
+          useSecureCookies: false,
+          defaultCookieAttributes: { httpOnly: true, sameSite: "lax", secure: false },
+        }),
       }),
     );
+    expect(vi.mocked(betterAuth).mock.calls[0][0].plugins).toBeUndefined();
   });
 });

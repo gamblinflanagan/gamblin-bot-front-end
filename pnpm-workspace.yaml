@@ -23,3 +23,11 @@ minimumReleaseAgeExclude:
   - '@vitejs/plugin-react@6.3.0'
   - rolldown@1.2.18
   - vite@8.3.7
+  - '@better-auth/core@1.7.27'
+  - '@better-auth/drizzle-adapter@1.7.27'
+  - '@better-auth/kysely-adapter@1.7.27'
+  - '@better-auth/memory-adapter@1.7.27'
+  - '@better-auth/mongo-adapter@1.7.27'
+  - '@better-auth/prisma-adapter@1.7.27'
+  - '@better-auth/telemetry@1.7.27'
+  - better-auth@1.7.27
